@@ -1,0 +1,323 @@
+.icono {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Acento decorativo lateral */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--rojo) 30%,
+    var(--rojo) 70%,
+    transparent
+  );
+  z-index: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--negro);
+  color: var(--blanco);
+  font-family: "DM Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+.logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.18em;
+  color: var(--blanco);
+  text-decoration: none;
+}
+.logo span {
+  color: var(--rojo);
+}
+.nav-tag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── Cabecera de página ──────────────────────────────────────────────── */
+.page-header {
+  margin-bottom: 42px;
+  animation: fadeUp 0.5s ease both;
+}
+.page-header-tag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--rojo);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.page-header h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--blanco);
+}
+.page-header h1 em {
+  font-style: normal;
+  color: var(--rojo);
+}
+
+/* ── Grid de dos columnas ────────────────────────────────────────────── */
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* ── Zona drop compartida ────────────────────────────────────────────── */
+.drop-zone {
+  background: var(--gris-oscuro);
+  border: 2px solid var(--gris-claro);
+  border-radius: 8px;
+  padding: 28px 24px;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+  animation: fadeUp 0.55s ease both;
+}
+.drop-zone:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--rojo) !important;
+  box-shadow:
+    0 0 0 3px rgba(215, 10, 10, 0.18),
+    inset 0 0 40px rgba(215, 10, 10, 0.06);
+}
+
+.drop-zone-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.drop-zone-header h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  color: var(--blanco);
+}
+.drop-zone-sub {
+  font-size: 0.82rem;
+  color: var(--blanco-dim);
+  margin-bottom: 18px;
+}
+
+/* Botón seleccionar */
+.btn-seleccionar {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 4px;
+  border: 1.5px solid var(--rojo);
+  background: transparent;
+  color: var(--blanco);
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    box-shadow 0.18s;
+}
+.btn-seleccionar:hover {
+  background: var(--rojo);
+  box-shadow: 0 4px 18px rgba(215, 10, 10, 0.35);
+}
+
+/* Badge info */
+#audioInfo,
+#imagenPreview {
+  margin-top: 12px;
+  min-height: 28px;
+}
+.badge-ok {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  background: rgba(18, 168, 88, 0.15);
+  border: 1px solid rgba(18, 168, 88, 0.35);
+  color: #3dd68c;
+  padding: 5px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.badge-error {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  background: rgba(215, 10, 10, 0.12);
+  border: 1px solid rgba(215, 10, 10, 0.35);
+  color: var(--rojo-suave);
+  padding: 5px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Divisor dentro de la zona */
+.zone-divider {
+  border: none;
+  border-top: 1px solid var(--gris-medio);
+  margin: 20px 0;
+}
+
+/* ── Campos de formulario ────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blanco-dim);
+  margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+  width: 100%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  color: var(--blanco);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  appearance: none;
+}
+.form-control::placeholder {
+  color: var(--blanco-dim);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(215, 10, 10, 0.15);
+}
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Select arrow personalizada */
+.select-wrapper {
+  position: relative;
+}
+.select-wrapper::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--blanco-dim);
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+/* Preview imagen */
+#imagenPreview img {
+  max-width: 120px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border: 1px solid var(--gris-claro);
+  display: block;
+}
+
+/* ── Barra de acciones final ──────────────────────────────────────────── */
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.btn-accion {
+  font-family: "Space Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 13px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-borrador {
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+}
+.btn-borrador:hover {
+  border-color: var(--blanco);
+  color: var(--blanco);
+}
+.btn-publicar {
+  background: var(--rojo);
+  color: white;
+}
+.btn-publicar:hover {
+  background: var(--rojo-suave);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(215, 10, 10, 0.4);
+}
+
+/* ── Animación ───────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-wrapper {
+    padding: 30px 20px 40px;
+  }
+  nav {
+    padding: 0 20px;
+  }
+  .acciones {
+    flex-direction: column;
+  }
+  .btn-accion {
+    width: 100%;
+    text-align: center;
+  }
+}

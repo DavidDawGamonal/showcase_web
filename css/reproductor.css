@@ -1,0 +1,982 @@
+/* ============================================================
+   reproductor.css — Estilos del reproductor de SHOWCASE
+   Incluye: layout, portada, reproductor, buscador, acciones,
+   comentarios, recomendaciones y responsive.
+   ============================================================ */
+
+/* ── Layout principal ────────────────────────────────────────────────── */
+.page-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 50px 40px 70px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Animaciones de entrada ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fadeUp 0.5s ease both;
+}
+.delay-1 {
+  animation-delay: 0.08s;
+}
+.delay-2 {
+  animation-delay: 0.16s;
+}
+.delay-3 {
+  animation-delay: 0.24s;
+}
+.delay-4 {
+  animation-delay: 0.32s;
+}
+
+/* ── Portada + título ────────────────────────────────────────────────── */
+.portada-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 0 0;
+}
+
+.portada-img {
+  width: 220px;
+  height: 220px;
+  border-radius: 10px;
+  background: var(--gris-medio);
+  border: 3px solid var(--rojo);
+  box-shadow:
+    0 0 50px rgba(215, 10, 10, 0.25),
+    0 20px 60px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  position: relative;
+  overflow: hidden;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 40px rgba(215, 10, 10, 0.2),
+      0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 70px rgba(215, 10, 10, 0.45),
+      0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.portada-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(215, 10, 10, 0.08) 0%,
+    transparent 60%
+  );
+}
+
+.portada-meta {
+  text-align: center;
+}
+
+.track-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 0.08em;
+  color: var(--blanco);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.track-productor-sub {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.track-genero-badge {
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  background: rgba(215, 10, 10, 0.12);
+  color: var(--rojo);
+  border: 1px solid rgba(215, 10, 10, 0.35);
+  padding: 3px 9px;
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Buscador ────────────────────────────────────────────────────────── */
+.search-section {
+  position: relative;
+  z-index: 10;
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Icono lupa dentro del input */
+.search-wrapper svg {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--blanco-dim);
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--gris-oscuro);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 6px;
+  padding: 16px 18px 16px 52px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  color: var(--blanco);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+  color: var(--blanco-dim);
+}
+
+.search-input:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(215, 10, 10, 0.15);
+}
+
+/* Desplegable de resultados */
+.search-resultados {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.search-resultado-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--gris-medio);
+  transition: background 0.18s;
+}
+
+.search-resultado-item:last-child {
+  border-bottom: none;
+}
+
+.search-resultado-item:hover {
+  background: rgba(215, 10, 10, 0.06);
+}
+
+.search-resultado-titulo {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blanco);
+}
+
+.search-resultado-productor {
+  display: block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--blanco-dim);
+  margin-top: 2px;
+}
+
+.search-resultado-vacio {
+  padding: 14px 16px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ── Secciones genéricas ─────────────────────────────────────────────── */
+.seccion {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  overflow: visible;
+  position: relative;
+}
+
+/* Línea roja decorativa superior */
+.seccion::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--rojo),
+    var(--rojo-suave),
+    transparent
+  );
+}
+
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 18px;
+  border-bottom: 1px solid var(--gris-medio);
+}
+
+.seccion-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seccion-header-acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-ver-todos {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ver-todos:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+/* ── Reproductor inner ───────────────────────────────────────────────── */
+.reproductor-body {
+  padding: 28px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Barra de progreso */
+.progress-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--gris-claro);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, var(--rojo), var(--rojo-suave));
+  border-radius: 2px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.progress-thumb {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--blanco);
+  border: 2px solid var(--rojo);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(215, 10, 10, 0.5);
+  transition: transform 0.15s;
+}
+
+.progress-track:hover .progress-thumb {
+  transform: translateY(-50%) scale(1.25);
+}
+
+.progress-times {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Space Mono", monospace;
+  font-size: 0.63rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.06em;
+}
+
+/* Controles de reproducción */
+.controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-ctrl {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--blanco-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.18s;
+  padding: 8px;
+}
+
+.btn-ctrl:hover {
+  color: var(--blanco);
+  transform: scale(1.1);
+}
+
+/* Estado activo para aleatorio y repetir */
+.btn-ctrl.activo {
+  color: var(--rojo);
+}
+
+/* Botón play principal */
+.btn-play-main {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--rojo);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 0 24px rgba(215, 10, 10, 0.4);
+  flex-shrink: 0;
+}
+
+.btn-play-main:hover {
+  background: var(--rojo-suave);
+  transform: scale(1.08);
+  box-shadow: 0 0 36px rgba(215, 10, 10, 0.6);
+}
+
+/* Alterna entre icono play e icono pausa */
+.btn-play-main.playing .icon-play {
+  display: none;
+}
+.btn-play-main.playing .icon-pause {
+  display: flex;
+}
+.btn-play-main:not(.playing) .icon-play {
+  display: flex;
+}
+.btn-play-main:not(.playing) .icon-pause {
+  display: none;
+}
+
+/* Slider de volumen */
+#volumen {
+  width: 80px;
+  accent-color: var(--rojo);
+  cursor: pointer;
+}
+
+/* ── Likes / Comentarios / Acciones ─────────────────────────────────── */
+.acciones-body {
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stats-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.05em;
+}
+
+.stat-pill.likes {
+  color: #e05c7c;
+}
+.stat-pill.comentarios {
+  color: var(--blanco-dim);
+}
+
+/* Separador vertical entre likes y comentarios */
+.divider-v {
+  width: 1px;
+  height: 18px;
+  background: var(--gris-claro);
+}
+
+.compartir-label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blanco-dim);
+  margin-left: auto;
+}
+
+.redes-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-red {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gris-claro);
+  background: transparent;
+  color: var(--blanco-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-size: 0.7rem;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+}
+
+.btn-red:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+/* Botones de acción (descargar, playlist, like) */
+.acciones-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-accion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--gris-claro);
+  background: transparent;
+  color: var(--blanco-dim);
+  padding: 9px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-accion:hover {
+  border-color: var(--blanco);
+  color: var(--blanco);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Botón de like — estado base */
+.btn-accion.fav {
+  border-color: rgba(224, 92, 124, 0.4);
+  color: #e05c7c;
+}
+
+.btn-accion.fav:hover {
+  border-color: #e05c7c;
+  background: rgba(224, 92, 124, 0.08);
+}
+
+/* Like dado — corazón lleno */
+.btn-accion.fav.activo {
+  border-color: #e05c7c;
+  background: rgba(224, 92, 124, 0.18);
+  color: #e05c7c;
+}
+
+/* Like no dado — corazón apagado */
+.btn-accion.fav.inactivo {
+  border-color: rgba(224, 92, 124, 0.2);
+  color: rgba(224, 92, 124, 0.4);
+}
+
+/* ── Comentarios ─────────────────────────────────────────────────────── */
+.comment-list {
+  padding: 8px 0;
+}
+
+.comment-item {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--gris-medio);
+  transition: background 0.18s;
+  position: relative;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+/* Barra lateral que aparece al hover */
+.comment-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gris-claro);
+  transition: background 0.18s;
+}
+
+.comment-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.comment-item:hover::before {
+  background: var(--rojo);
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.comment-user {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--rojo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comment-fecha {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--blanco-dim);
+}
+
+.comment-texto {
+  font-size: 0.88rem;
+  color: var(--blanco-dim);
+  line-height: 1.55;
+}
+
+/* Textarea para nuevo comentario */
+#inputComentario {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  color: var(--blanco);
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  margin: 0 0 8px; /* Sin márgenes laterales */
+  transition: border-color 0.2s;
+}
+
+#inputComentario:focus {
+  border-color: var(--rojo);
+}
+
+#formComentario {
+  padding: 12px 28px 0;
+}
+
+#formComentario .btn-accion {
+  margin: 0 0 16px;
+}
+
+/* ── Recomendaciones ─────────────────────────────────────────────────── */
+.recs-list {
+  padding: 8px 0;
+}
+
+/* Cada fila de recomendación */
+.track-item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  background: var(--gris-oscuro);
+  border-bottom: 1px solid var(--gris-medio);
+  padding: 14px 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.track-item:last-child {
+  border-bottom: none;
+}
+
+/* Barra roja lateral al hover */
+.track-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--rojo);
+  transform: scaleY(0);
+  transition: transform 0.2s;
+  transform-origin: bottom;
+}
+
+.track-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  padding-left: 24px;
+}
+
+.track-item:hover::before {
+  transform: scaleY(1);
+}
+
+.track-rank {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--rojo);
+  font-weight: 700;
+  text-align: center;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.track-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-producer {
+  font-size: 0.78rem;
+  color: var(--blanco-dim);
+}
+
+.track-genre {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.track-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--blanco-dim);
+  white-space: nowrap;
+}
+
+.track-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.track-meta-item.likes {
+  color: #e05c7c;
+}
+
+/* Botón play de las recomendaciones */
+.btn-play {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--rojo);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.btn-play:hover {
+  background: var(--rojo-suave);
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(215, 10, 10, 0.5);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .page-wrapper {
+    padding: 30px 16px 50px;
+  }
+  .portada-img {
+    width: 170px;
+    height: 170px;
+  }
+  .track-titulo {
+    font-size: 2rem;
+  }
+  .reproductor-body {
+    padding: 20px 18px 24px;
+  }
+  .acciones-body {
+    padding: 18px 16px;
+  }
+  .stats-row {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .compartir-label {
+    margin-left: 0;
+  }
+  .seccion-header {
+    padding: 16px 16px 14px;
+  }
+  .comment-item,
+  .track-item {
+    padding: 12px 16px;
+  }
+  .acciones-row {
+    gap: 8px;
+  }
+  .btn-accion {
+    font-size: 0.58rem;
+    padding: 8px 12px;
+  }
+  .controles {
+    gap: 12px;
+  }
+}
+
+.playlist-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: rgba(215, 10, 10, 0.08);
+  border: 1px solid rgba(215, 10, 10, 0.25);
+  border-radius: 20px; /* Pill shape */
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--blanco-dim);
+  align-self: flex-start; /* No ocupa todo el ancho */
+}
+
+.playlist-banner[hidden] {
+  display: none !important;
+}
+
+@keyframes playlist-glow {
+  0%,
+  100% {
+    color: var(--blanco-dim);
+    text-shadow: none;
+  }
+  50% {
+    color: var(--blanco);
+    text-shadow:
+      0 0 8px rgba(215, 10, 10, 0.6),
+      0 0 16px rgba(215, 10, 10, 0.3);
+  }
+}
+
+.playlist-banner span {
+  animation: playlist-glow 2.5s ease-in-out infinite;
+}
+
+/* ── Respuestas a comentarios ────────────────────────────────────────── */
+
+/* Fila inferior del comentario — respuestas a la izquierda, responder a la derecha */
+.comment-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+/* Botón ver respuestas y botón responder — mismo estilo base */
+.comment-btn-respuestas,
+.comment-btn-responder {
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  background: transparent;
+  border: 1px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 3px;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.comment-btn-respuestas:hover,
+.comment-btn-responder:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+/* Textarea para escribir una respuesta */
+.comment-textarea-respuesta {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  color: var(--blanco);
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  margin: 6px 0;
+  transition: border-color 0.2s;
+}
+.comment-textarea-respuesta:focus {
+  border-color: var(--rojo);
+}
+
+/* Botón enviar respuesta */
+.comment-btn-enviar-respuesta {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--rojo);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.18s;
+  margin-bottom: 8px;
+}
+.comment-btn-enviar-respuesta:hover {
+  background: var(--rojo-suave);
+}
+
+/* Bloque de respuestas anidadas */
+.comment-respuestas {
+  margin-top: 8px;
+  border-left: 2px solid var(--gris-claro);
+  padding-left: 16px;
+}
+
+/* Cada respuesta anidada */
+.comment-respuesta {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gris-medio);
+}
+.comment-respuesta:last-child {
+  border-bottom: none;
+}
+
+/* Cancelamos el pseudo-elemento ::before heredado de comment-item */
+.comment-respuesta::before {
+  display: none;
+}
+
+/* Botón like de comentario */
+.comment-btn-like {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  background: transparent;
+  border: none;
+  color: var(--blanco-dim);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.18s;
+}
+.comment-btn-like:hover {
+  color: #e05c7c;
+}
+.comment-btn-like.activo {
+  color: #e05c7c;
+}
+.comment-btn-like-disabled {
+  cursor: default;
+}

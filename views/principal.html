@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHOWCASE</title>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon_vinilo.svg" />
+    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+  </head>
+  <script src="../js/config.js"></script>
+  <script src="../js/principal.js"></script>
+  <script src="../js/utils.js"></script>
+  <body>
+    <!-- ── Navbar ─────────────────────────────────────────────────────────── -->
+    <nav>
+      <!-- Botón hamburguesay logo-->
+      <div class="nav-izquierda">
+        <button class="btn-hamburguesa" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <!-- Menú desplegable pendiente de implementar ubicaciones-->
+        <div class="menu-desplegable" id="menuDesplegable" hidden>
+          <a href="../views/principal.html">Inicio</a>
+          <a href="../views/reproductor.html">Reproductor</a>
+          <a href="../views/subirAudio.html" class="productores" hidden
+            >Subir un track</a
+          >
+          <a class="perfil">Mi perfil</a>
+        </div>
+        <a class="logo" href="principal.html">SHOW<span>CASE</span></a>
+      </div>
+      <div class="nav-links" id="divBotonesLogin">
+        <button
+          class="btn-nav btn-nav-outline"
+          onclick="redireccionLogin('iniciarSesion')"
+        >
+          Iniciar sesión
+        </button>
+        <button
+          class="btn-nav btn-nav-fill"
+          onclick="redireccionLogin('registrarse')"
+        >
+          Registrarse
+        </button>
+      </div>
+      <div id="divUsuario" hidden>
+        <span data-feather="user" class="icono"></span
+        ><!-- Icono de usuario en línea -->
+        <div>
+          <span class="nav-user-info fade-in delay-2" id="spanNombre"></span>
+          <span class="nav-user-info fade-in delay-2" id="spanRol"></span>
+        </div>
+        <button class="btn-nav btn-nav-outline" onclick="cerrarSesion()">
+          Cerrar sesión
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="hero-tag fade-in">// plataforma de instrumentales</p>
+        <h1 class="hero-title fade-in delay-1">
+          ¡¡BIENVENIDO!!
+          <em>A SHOWCASE</em>
+        </h1>
+        <p class="hero-sub fade-in delay-2">
+          Descubre las mejores producciones para tu álbum. Miles de beats
+          originales te esperan.
+        </p>
+      </div>
+      <div class="hero-visual fade-in delay-4">
+        <div class="vinyl"></div>
+      </div>
+    </section>
+
+    <!-- ── Buscador ───────────────────────────────────────────────────────── -->
+    <div class="search-section fade-in delay-4">
+      <div class="search-wrapper">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Buscar instrumentales…"
+          autocomplete="off"
+        />
+      </div>
+      <div id="searchResultados" class="search-resultados" hidden></div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- ── Top 5 ──────────────────────────────────────────────────────────── -->
+    <section class="seccion">
+      <div class="seccion-header">
+        <h2 class="seccion-titulo">Top 5 instrumentales</h2>
+        <span class="seccion-badge">🔥 más reproducidas</span>
+      </div>
+      <div class="track-list" id="top5">
+        <p class="hero-sub fade-in delay-2">No se ha podido cargar el top 5</p>
+      </div>
+    </section>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- ── Últimas subidas ────────────────────────────────────────────────── -->
+    <section class="seccion">
+      <div class="seccion-header">
+        <h2 class="seccion-titulo">Últimas subidas</h2>
+        <span class="seccion-badge verde">✦ esta semana</span>
+      </div>
+      <div class="nuevas-grid" id="nuevas-grid"></div>
+    </section>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- ── Explorar instrumentales ───────────────────────────────────────── -->
+    <section class="seccion" id="seccionExplorar">
+      <div class="seccion-header">
+        <h2 class="seccion-titulo">Explorar instrumentales</h2>
+        <span class="seccion-badge">🔍 búsqueda avanzada</span>
+      </div>
+
+      <!-- Filtros -->
+      <div class="explorar-filtros">
+        <div class="explorar-row">
+          <div class="explorar-grupo">
+            <span class="explorar-label">Género</span>
+            <select id="filtroGenero" class="explorar-select">
+              <option value="">Todos los géneros</option>
+              <option value="Rap">Rap</option>
+              <option value="Trap">Trap</option>
+              <option value="Jazz">Jazz</option>
+              <option value="Blues">Blues</option>
+              <option value="Soul">Soul</option>
+              <option value="Reggae">Reggae</option>
+            </select>
+          </div>
+          <div class="explorar-grupo">
+            <span class="explorar-label">Productor</span>
+            <input
+              type="text"
+              id="filtroProductor"
+              class="explorar-input"
+              placeholder="Nombre del productor…"
+            />
+          </div>
+          <div class="explorar-grupo">
+            <span class="explorar-label">Ordenar por</span>
+            <select id="filtroOrden" class="explorar-select">
+              <option value="likes">Más likes</option>
+              <option value="comentarios">Más comentarios</option>
+              <option value="fecha">Más recientes</option>
+              <option value="reproducciones">Más reproducidas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="explorar-row">
+          <div class="explorar-grupo">
+            <span class="explorar-label">Likes mínimos</span>
+            <select id="filtroMinLikes" class="explorar-select">
+              <option value="">Cualquiera</option>
+              <option value="10">+10</option>
+              <option value="50">+50</option>
+              <option value="100">+100</option>
+            </select>
+          </div>
+          <div class="explorar-grupo">
+            <span class="explorar-label">Comentarios mín.</span>
+            <select id="filtroMinComentarios" class="explorar-select">
+              <option value="">Cualquiera</option>
+              <option value="5">+5</option>
+              <option value="20">+20</option>
+              <option value="50">+50</option>
+            </select>
+          </div>
+          <div class="explorar-grupo">
+            <span class="explorar-label">Fecha desde</span>
+            <input type="date" id="filtroFechaDesde" class="explorar-input" />
+          </div>
+          <div class="explorar-grupo">
+            <span class="explorar-label">Fecha hasta</span>
+            <input type="date" id="filtroFechaHasta" class="explorar-input" />
+          </div>
+        </div>
+
+        <div class="explorar-footer">
+          <button class="explorar-btn-reset" onclick="limpiarFiltros()">
+            ↺ Limpiar filtros
+          </button>
+          <button class="explorar-btn-buscar" onclick="buscarConFiltros()">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <!-- Resultados -->
+      <div
+        id="explorar-resultados-header"
+        class="explorar-resultados-header"
+        hidden
+      >
+        <span id="explorar-count" class="explorar-count"></span>
+        <span id="explorar-orden" class="explorar-count"></span>
+      </div>
+      <div class="track-list" id="explorar-resultados">
+        <!-- Los resultados se cargan dinámicamente desde el backend -->
+      </div>
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+    <footer>© 2026 SHOWCASE — TODOS LOS DERECHOS RESERVADOS</footer>
+
+    <script>
+      // Redirige a login.html con el parámetro de acción correspondiente
+      // (replica la lógica de principal.js / redireccionLogin)
+      function redireccionLogin(accion) {
+        window.location.href = "login.html?accion=" + accion;
+      }
+    </script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

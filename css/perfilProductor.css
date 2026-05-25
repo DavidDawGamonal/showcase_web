@@ -1,0 +1,573 @@
+/* Círculo con icono de usuario */
+.nav-perfil-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--rojo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rojo);
+}
+
+/* ==========================================================================
+   TARJETA DE PERFIL (cabecera del productor)
+   ========================================================================== */
+.perfil-card {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  padding: 40px 36px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  position: relative;
+  overflow: hidden; /* Oculta cualquier desborde del pseudo-elemento */
+}
+/* Línea decorativa superior con gradiente */
+.perfil-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--rojo),
+    var(--acento),
+    transparent
+  );
+}
+
+/* Insignia de "productor" (rol) en la esquina superior derecha */
+.productor-badge {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--rojo), var(--acento));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 3px solid var(--acento);
+  background: var(--gris-medio);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  box-shadow: 0 0 32px rgba(255, 107, 53, 0.3);
+  overflow: hidden; /*el contenido que se salga del área del avatar será recortado*/
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* La imagen cubre el círculo sin deformarse */
+}
+
+/* Anillo que late alrededor del avatar */
+.avatar-ring {
+  position: absolute;
+  inset: -5px; /* Extiende el anillo 5px hacia afuera del avatar */
+  border-radius: 50%; /* Misma forma circular que el avatar */
+  border: 1px solid rgba(255, 107, 53, 0.3); /* Borde fino semitransparente */
+  animation: pulse-ring 2.5s ease-in-out infinite; /* Animación de latido */
+}
+@keyframes pulse-ring {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+/* Información textual del perfil */
+.perfil-info {
+  flex: 1; /* Ocupa el espacio restante */
+  min-width: 0; /* Necesario para que el truncado de texto funcione */
+}
+.perfil-nombre {
+  font-family: "Bebas Neue", sans-serif; /* Tipografía impactante */
+  font-size: 2.4rem;
+  letter-spacing: 0.06em;
+  color: var(--blanco);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.perfil-email {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--blanco-dim);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+.perfil-miembro {
+  display: inline-flex; /*se comporta como un elemento en línea*/
+  align-items: center;
+  gap: 7px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--acento);
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  padding: 4px 12px;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   SECCIÓN GENÉRICA (reutilizable para cualquier bloque)
+   ========================================================================== */
+.seccion {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen al contenido */
+}
+/* Cabecera de la sección con título y botón "ver todos" */
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 18px;
+  border-bottom: 1px solid var(--gris-medio);
+}
+
+.seccion-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Badge pequeño dentro del título (ej: contador) */
+.seccion-titulo-badge {
+  font-family: "Space Mono", monospace;
+  font-size: 0.6rem;
+  background: var(--rojo);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Variante naranja del badge */
+.seccion-titulo-badge.naranja {
+  background: var(--acento);
+}
+
+/* Botón "Ver todos" estilo enlace técnico */
+.btn-ver-todos {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-ver-todos:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+/* ==========================================================================
+   ESTADÍSTICAS DEL PERFIL (grid de 5 columnas)
+   ========================================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas iguales */
+  gap: 0; /* Sin separación, los bordes laterales actúan como separadores */
+}
+
+/* Cada ítem estadístico */
+.stat-item {
+  padding: 26px 14px;
+  text-align: center;
+  border-right: 1px solid var(--gris-medio); /* Separador vertical */
+  transition: background 0.2s;
+}
+.stat-item:last-child {
+  border-right: none; /* El último no tiene borde derecho */
+}
+.stat-item:hover {
+  background: rgba(255, 107, 53, 0.05); /* Sutil realce al pasar el ratón */
+}
+.stat-numero {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.04em;
+  color: var(--acento);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blanco-dim);
+}
+.stat-icon {
+  font-size: 1rem;
+  margin-bottom: 7px;
+  display: block;
+}
+
+/* ==========================================================================
+   BOTÓN PARA SUBIR INSTRUMENTAL (LLAMADA A LA ACCIÓN)
+   ========================================================================== */
+.btn-subir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 18px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px dashed var(--rojo); /* Borde discontinuo para destacar */
+  background: rgba(215, 10, 10, 0.05);
+  color: var(--blanco);
+  transition: all 0.22s;
+  text-decoration: none;
+}
+.btn-subir:hover {
+  background: rgba(215, 10, 10, 0.12);
+  border-style: solid; /* Cambia a borde sólido al hover */
+  box-shadow: 0 0 28px rgba(215, 10, 10, 0.2);
+  transform: translateY(-2px); /* Efecto de elevación */
+}
+.btn-subir svg {
+  color: var(--rojo);
+  flex-shrink: 0;
+}
+.btn-subir-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.btn-subir-main {
+  color: var(--blanco);
+  font-size: 0.82rem;
+}
+.btn-subir-sub {
+  font-size: 0.62rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   LISTA DE TRACKS (canciones del usuario)
+   ========================================================================== */
+.track-list {
+  padding: 8px 0;
+}
+
+/* Cada fila de la lista */
+.track-item {
+  display: grid;
+  grid-template-columns: 32px 1fr auto; /* número | info | acciones */
+  align-items: center;
+  gap: 14px;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--gris-medio);
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    padding-left 0.18s;
+  position: relative;
+}
+.track-item:last-child {
+  border-bottom: none;
+}
+/* Línea vertical que aparece al hacer hover (efecto de acordeón) */
+.track-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--acento);
+  transform: scaleY(0); /* Inicialmente oculta (escala vertical 0) */
+  transition: transform 0.18s;
+  transform-origin: bottom; /* La animación crece desde abajo */
+}
+.track-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  padding-left: 32px; /* Desplaza el contenido hacia la derecha */
+}
+.track-item:hover::before {
+  transform: scaleY(1); /* Muestra la línea completa */
+}
+
+/* Número de orden del track */
+.track-num {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--acento);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Contenedor de información (título + metadatos) */
+.track-info {
+  min-width: 0; /* Permite truncar texto con ellipsis */
+}
+.track-nombre {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+/* Fila de metadatos: fecha, reproducciones, género */
+.track-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--blanco-dim);
+}
+/*.track-fecha {
+}*/
+
+.track-plays {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.track-genero {
+  background: var(--gris-claro);
+  color: var(--blanco-dim);
+  padding: 1px 7px;
+  border-radius: 2px;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Botones de acción: play y eliminar */
+.track-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-play-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--rojo);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.btn-play-sm:hover {
+  background: var(--rojo-suave);
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(215, 10, 10, 0.5);
+}
+
+.btn-delete {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.btn-delete:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+  background: rgba(215, 10, 10, 0.1);
+}
+
+/* ==========================================================================
+   TRACKS POPULARES (versión con estilo de ranking)
+   ========================================================================== */
+
+.track-portada {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.track-item-popular {
+  display: grid;
+  grid-template-columns: 28px 40px 1fr auto; /* ranking | info | metadatos */
+  align-items: center;
+  gap: 14px;
+  padding: 13px 28px;
+  border-bottom: 1px solid var(--gris-medio);
+  transition:
+    background 0.18s,
+    padding-left 0.18s;
+  position: relative;
+}
+.track-item-popular:last-child {
+  border-bottom: none;
+}
+
+/* Línea roja al hover (diferente al acento naranja de los tracks normales) */
+.track-item-popular::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--rojo);
+  transform: scaleY(0);
+  transition: transform 0.18s;
+  transform-origin: bottom;
+}
+.track-item-popular:hover {
+  background: rgba(255, 255, 255, 0.03);
+  padding-left: 32px;
+}
+.track-item-popular:hover::before {
+  transform: scaleY(1);
+}
+
+/* Posición en el ranking */
+.track-rank-popular {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--rojo);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Metadatos específicos para populares */
+.pop-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--blanco-dim);
+  white-space: nowrap;
+}
+
+/*likes*/
+.pop-likes {
+  color: #e05c7c; /* Color rosado para los likes */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pop-plays {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* ==========================================================================
+   RESPONSIVE (adaptación para pantallas de hasta 720px)
+   ========================================================================== */
+@media (max-width: 720px) {
+  /* Reducimos el padding general y los gaps */
+  .page-wrapper {
+    padding: 30px 16px 50px;
+    gap: 20px;
+  }
+  /* Tarjeta de perfil en columna y texto centrado */
+  .perfil-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+    gap: 20px;
+  }
+  .perfil-miembro {
+    margin: 0 auto; /* Centrar el badge de miembro */
+  }
+  .productor-badge {
+    top: 12px;
+    right: 12px;
+  }
+  /* Estadísticas: pasan de 5 a 3 columnas */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* Eliminamos el borde derecho del tercer elemento */
+  .stat-item:nth-child(3) {
+    border-right: none;
+  }
+  /* Añadimos borde inferior a las tres primeras filas */
+  .stat-item:nth-child(1),
+  .stat-item:nth-child(2),
+  .stat-item:nth-child(3) {
+    border-bottom: 1px solid var(--gris-medio);
+  }
+  /* Reducción de padding en los items de las listas */
+  .track-item,
+  .track-item-popular {
+    padding: 11px 14px;
+    gap: 10px;
+  }
+  .track-item:hover,
+  .track-item-popular:hover {
+    padding-left: 18px; /* Menor desplazamiento en móvil */
+  }
+  .seccion-header {
+    padding: 14px 14px 12px;
+  }
+  .track-meta-row {
+    gap: 8px;
+  }
+  .pop-meta {
+    gap: 8px;
+  }
+}

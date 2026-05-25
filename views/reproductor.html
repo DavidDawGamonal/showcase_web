@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHOWCASE — Reproductor</title>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon_vinilo.svg" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/reproductor.css" />
+    <link rel="stylesheet" href="../css/playlist.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+  </head>
+  <body>
+    <!-- ── Navbar ── -->
+    <nav>
+      <div class="nav-izquierda">
+        <button class="btn-hamburguesa" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="menu-desplegable" id="menuDesplegable" hidden>
+          <a href="../views/principal.html">Inicio</a>
+          <a href="../views/reproductor.html">Reproductor</a>
+          <a href="../views/subirAudio.html" class="productores" hidden
+            >Subir un track</a
+          >
+          <a href="../views/perfilProductor.html" class="perfil">Mi perfil</a>
+        </div>
+        <a class="logo" href="principal.html">SHOW<span>CASE</span></a>
+        <!-- Icono Reproductor -->
+        <div class="nav-label-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="9" cy="18" r="3" />
+            <circle cx="21" cy="15" r="3" />
+            <path d="M21 15V5l-12 3v10" />
+          </svg>
+        </div>
+        Reproductor
+      </div>
+      <!-- Icono, email y rol en el navbar (solo con usuario logado) -->
+      <div id="divUsuario" hidden>
+        <span data-feather="user" class="icono"></span>
+        <div>
+          <span class="nav-user-info fade-in delay-2" id="spanNombre"></span>
+          <span class="nav-user-info fade-in delay-2" id="spanRol"></span>
+        </div>
+        <button class="btn-nav btn-nav-outline" onclick="cerrarSesion()">
+          Cerrar sesión
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── Contenido ── -->
+    <div class="page-wrapper">
+      <!-- ── Portada + Título ── -->
+      <div class="portada-wrapper fade-in">
+        <div class="portada-img">🎵</div>
+        <div class="portada-meta">
+          <div class="track-titulo">Selecciona algún track</div>
+          <div class="track-productor-sub">
+            <span class="track-genero-badge"></span>
+          </div>
+        </div>
+      </div>
+      <!-- Banner de playlist — muestra el nombre de la playlist mientras suena -->
+      <div id="playlistBanner" hidden class="playlist-banner">
+        🎵 <span id="bannerNombrePlaylist"></span>
+      </div>
+
+      <!-- ── Reproductor ── -->
+      <div class="seccion fade-in delay-1">
+        <div class="reproductor-body">
+          <!-- Barra de progreso -->
+          <div class="progress-area">
+            <div class="progress-track" id="progressTrack">
+              <div class="progress-fill" id="progressFill">
+                <div class="progress-thumb"></div>
+              </div>
+            </div>
+            <div class="progress-times">
+              <span id="tiempoActual">0:00</span>
+              <span id="tiempoTotal"></span>
+            </div>
+          </div>
+
+          <!-- Controles -->
+          <div class="controles">
+            <!-- Shuffle -->
+            <button
+              class="btn-ctrl"
+              title="Aleatorio"
+              id="btnAleatorio"
+              onclick="aleatorio()"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="16 3 21 3 21 8" />
+                <line x1="4" y1="20" x2="21" y2="3" />
+                <polyline points="21 16 21 21 16 21" />
+                <line x1="15" y1="15" x2="21" y2="21" />
+                <line x1="4" y1="4" x2="9" y2="9" />
+              </svg>
+            </button>
+
+            <!-- Anterior -->
+            <button
+              class="btn-ctrl"
+              title="Anterior"
+              id="btnAnterior"
+              onclick="anterior()"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
+              </svg>
+            </button>
+
+            <!-- Stop -->
+            <button class="btn-ctrl" title="Stop" id="btnStop" onclick="stop()">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+              </svg>
+            </button>
+
+            <!-- Play / Pausa -->
+            <button
+              class="btn-play-main"
+              id="btnPlay"
+              onclick="togglePlay()"
+              title="Reproducir / Pausar"
+            >
+              <span class="icon-play">
+                <svg width="20" height="22" viewBox="0 0 12 14" fill="white">
+                  <path d="M1 1l10 6L1 13V1z" />
+                </svg>
+              </span>
+              <span class="icon-pause">
+                <svg width="18" height="20" viewBox="0 0 24 24" fill="white">
+                  <rect x="5" y="3" width="4" height="18" rx="1" />
+                  <rect x="15" y="3" width="4" height="18" rx="1" />
+                </svg>
+              </span>
+            </button>
+
+            <!-- Siguiente -->
+            <button
+              class="btn-ctrl"
+              title="Siguiente"
+              id="btnSiguiente"
+              onclick="siguiente()"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.5V8.5L8.5 12zM16 6h2v12h-2z"
+                />
+              </svg>
+            </button>
+
+            <!-- Repetir -->
+            <button
+              class="btn-ctrl"
+              title="Repetir"
+              id="btnRepit"
+              onclick="repit()"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="17 1 21 5 17 9" />
+                <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                <polyline points="7 23 3 19 7 15" />
+                <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+              </svg>
+            </button>
+
+            <!-- Volumen -->
+            <button
+              class="btn-ctrl"
+              title="Mute"
+              id="btnMute"
+              onclick="toggleMute()"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path
+                  d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                />
+              </svg>
+            </button>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              id="volumen"
+              value="0.5"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Buscador ───────────────────────────────────────────────────────── -->
+      <div class="search-section fade-in delay-4">
+        <div class="search-wrapper">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar instrumentales…"
+            autocomplete="off"
+          />
+        </div>
+        <div id="searchResultados" class="search-resultados" hidden></div>
+      </div>
+
+      <!-- ── Likes / Comentarios / Acciones ── -->
+      <div class="seccion fade-in delay-2">
+        <div class="acciones-body">
+          <!-- Stats + compartir -->
+          <div class="stats-row">
+            <div class="stat-pill likes" id="contadorLikes">
+              <svg
+                width="14"
+                height="13"
+                viewBox="0 0 24 22"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                />
+              </svg>
+              --
+            </div>
+            <div class="divider-v"></div>
+            <div class="stat-pill comentarios" id="statComentarios">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
+              -- comentarios
+            </div>
+            <div class="compartir-label">Compartir en:</div>
+            <div class="redes-row">
+              <button class="btn-red" title="Instagram">IG</button>
+              <button class="btn-red" title="X / Twitter">𝕏</button>
+              <button class="btn-red" title="WhatsApp">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+                  />
+                  <path
+                    d="M12 0C5.373 0 0 5.373 0 12c0 2.106.548 4.085 1.504 5.8L0 24l6.39-1.49A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.784 9.784 0 0 1-5.003-1.374l-.36-.214-3.732.979.994-3.636-.234-.374A9.77 9.77 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"
+                  />
+                </svg>
+              </button>
+              <button class="btn-red" title="Copiar enlace">
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                  />
+                  <path
+                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <!-- DESCARGAR TRACK -->
+          <div class="acciones-row">
+            <button
+              class="btn-accion"
+              id="btnDescargar"
+              title="Descargar"
+              onclick="descargarTrack()"
+              hidden
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Descargar
+            </button>
+
+            <!-- Botón + desplegable de playlist en el mismo contenedor -->
+            <div class="playlist-wrapper" id="playlistWrapper">
+              <button
+                class="btn-accion"
+                id="btnPlaylist"
+                title="Añadir a playlist"
+                onclick="toggleMenuPlaylist()"
+                hidden
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="8" y1="6" x2="21" y2="6" />
+                  <line x1="8" y1="12" x2="21" y2="12" />
+                  <line x1="8" y1="18" x2="21" y2="18" />
+                  <line x1="3" y1="6" x2="3.01" y2="6" />
+                  <line x1="3" y1="12" x2="3.01" y2="12" />
+                  <line x1="3" y1="18" x2="3.01" y2="18" />
+                  <circle cx="20" cy="18" r="4" fill="none" />
+                  <line x1="20" y1="16" x2="20" y2="20" />
+                  <line x1="18" y1="18" x2="22" y2="18" />
+                </svg>
+                Añadir a playlist ▾
+              </button>
+
+              <!-- Desplegable de playlists — oculto por defecto -->
+            </div>
+
+            <button
+              class="btn-accion fav"
+              id="btnLike"
+              title="Favoritos"
+              onclick="toggleLike()"
+              hidden
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 22"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                />
+              </svg>
+              Me gusta 👍
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Comentarios ── -->
+      <div class="seccion fade-in delay-3" id="seccionComentarios">
+        <div class="seccion-header">
+          <div class="seccion-titulo">
+            Comentarios <span id="contadorComentarios"></span>
+          </div>
+          <div class="seccion-header-acciones">
+            <button
+              class="btn-ver-todos"
+              id="btnNuevoComentario"
+              onclick="toggleFormComentario()"
+              hidden
+            >
+              + Comentar
+            </button>
+            <a
+              class="btn-ver-todos"
+              id="btnVerTodos"
+              onclick="toggleComentarios()"
+              >Ver todos →</a
+            >
+          </div>
+        </div>
+
+        <!-- Formulario nuevo comentario (oculto por defecto) -->
+        <div id="formComentario" hidden>
+          <textarea
+            id="inputComentario"
+            placeholder="Escribe tu comentario..."
+            maxlength="500"
+          ></textarea>
+          <button class="btn-accion" onclick="enviarComentario()">
+            Enviar
+          </button>
+        </div>
+
+        <div class="comment-list limitado" id="listaComentarios">
+          <!-- Los comentarios se cargan dinámicamente desde el backend -->
+        </div>
+      </div>
+      <!-- ── Recomendaciones ── -->
+      <div class="seccion fade-in delay-4">
+        <div class="seccion-header">
+          <div class="seccion-titulo" id="tituloRecomendaciones">
+            Recomendaciones
+          </div>
+          <a href="#" class="btn-ver-todos">Ver más →</a>
+        </div>
+        <div class="recs-list" id="recomendaciones">
+          <p>No se han podido cargar las recomendaciones</p>
+        </div>
+      </div>
+    </div>
+    <audio id="audioReproductor" preload="auto"></audio>
+    <!-- Desplegable para ver el menú de crear/añadir playList -->
+    <div id="menuPlaylist" class="playlist-menu" hidden>
+      <div id="listaPlaylists" class="playlist-lista"></div>
+      <div class="playlist-separador"></div>
+      <div class="playlist-nueva">
+        <input
+          type="text"
+          id="inputNuevaPlaylist"
+          class="playlist-input"
+          placeholder="Nueva playlist..."
+          maxlength="100"
+        />
+        <button class="playlist-btn-crear" onclick="crearYAnadir()">
+          + Crear
+        </button>
+      </div>
+      <div class="playlist-separador"></div>
+      <div class="playlist-confirmar">
+        <button
+          class="playlist-btn-anadir"
+          onclick="confirmarAñadirAPlaylist()"
+        >
+          Añadir →
+        </button>
+      </div>
+    </div>
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/reproductor.js"></script>
+  </body>
+</html>

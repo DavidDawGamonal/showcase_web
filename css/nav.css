@@ -1,0 +1,257 @@
+/* ── Variables y Reset ─────────────────────────────────────────────── */
+:root {
+  --rojo: #d70a0a;
+  --rojo-suave: #ff2a2a;
+  --negro: #0d0d0d;
+  --gris-oscuro: #1b1919;
+  --gris-medio: #2a2828;
+  --gris-claro: #3d3b3b;
+  --blanco: #f0eded;
+  --blanco-dim: #a09a9a;
+  --acento: #ff6b35;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Necesario para que en #campo_registro no priorice display: flex; sobre hidden */
+[hidden] {
+  display: none !important;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+html,
+body {
+  min-height: 100%;
+  background-color: var(--negro);
+  color: var(--blanco);
+  font-family: "DM Sans", sans-serif;
+  /* SIN overflow-x: hidden — rompe position: sticky en el nav */
+}
+
+/* Fondo con textura de ruido */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* Acento decorativo lateral */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--rojo) 30%,
+    var(--rojo) 70%,
+    transparent
+  );
+  z-index: 0;
+}
+
+/* ── Navbar ─────────────────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(215, 10, 10, 0.25);
+}
+
+/* Menú hamburguesa y logo */
+.nav-izquierda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.18em;
+  color: var(--blanco);
+  text-decoration: none;
+  position: relative;
+}
+
+.logo span {
+  color: var(--rojo);
+}
+
+.icono {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.nav-label-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--rojo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rojo);
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-nav {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 22px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-nav-outline {
+  background: transparent;
+  border: 1.5px solid var(--rojo);
+  color: var(--blanco);
+}
+.btn-nav-outline:hover {
+  background: var(--rojo);
+}
+.btn-nav-fill {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+.btn-nav-fill:hover {
+  background: var(--rojo-suave);
+  box-shadow: 0 0 18px rgba(215, 10, 10, 0.5);
+}
+
+#divUsuario {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#divUsuario span {
+  display: block;
+}
+
+/* Menú hamburguesa */
+.btn-hamburguesa {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.btn-hamburguesa span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: rgb(248, 6, 6);
+  margin-bottom: 1px;
+}
+
+.menu-desplegable {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  z-index: 1000;
+  min-width: 200px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.menu-desplegable a {
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.menu-desplegable a:hover {
+  background-color: #222;
+}
+
+.page-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 50px 40px 70px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  overflow: hidden;
+}
+
+/* ── Responsive nav ─────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  nav {
+    padding: 0 20px;
+  }
+}
+
+/* Botón eliminar cuenta */
+.btn-eliminar-cuenta {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid rgba(215, 10, 10, 0.3);
+  color: rgba(215, 10, 10, 0.5);
+  padding: 5px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.btn-eliminar-cuenta:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+  background: rgba(215, 10, 10, 0.08);
+}

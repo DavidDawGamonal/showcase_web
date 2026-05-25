@@ -1,0 +1,227 @@
+/* ==========================================================================
+   PLAYLIST — desplegable para añadir tracks a playlists
+   ========================================================================== */
+
+/* Contenedor relativo para que el desplegable se posicione bajo el botón */
+.playlist-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Menú desplegable */
+.playlist-menu {
+  position: fixed !important;
+  z-index: 9999;
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 8px;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* Lista de playlists existentes */
+.playlist-lista {
+  max-height: 180px; /* Scroll si hay muchas playlists */
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+/* Cada playlist de la lista */
+.playlist-lista-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  color: var(--blanco-dim);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.playlist-lista-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--blanco);
+}
+
+/* Icono de check — se muestra cuando el track ya está en la playlist */
+.playlist-lista-item .check {
+  color: var(--rojo);
+  font-size: 0.75rem;
+  margin-left: auto; /* Lo empuja a la derecha */
+}
+
+/* Mensaje cuando no hay playlists */
+.playlist-vacia {
+  padding: 10px 16px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.06em;
+}
+
+/* Línea separadora entre la lista y el formulario de nueva playlist */
+.playlist-separador {
+  height: 1px;
+  background: var(--gris-medio);
+  margin: 0;
+}
+
+/* Formulario para crear nueva playlist */
+.playlist-nueva {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+/* Input de nueva playlist */
+.playlist-input {
+  flex: 1;
+  background: var(--gris-medio);
+  border: 1px solid var(--gris-claro);
+  border-radius: 4px;
+  color: var(--blanco);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.playlist-input:focus {
+  border-color: var(--rojo);
+}
+.playlist-input::placeholder {
+  color: var(--blanco-dim);
+}
+
+/* Botón crear nueva playlist */
+.playlist-btn-crear {
+  background: var(--rojo);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.playlist-btn-crear:hover {
+  background: var(--rojo-suave);
+}
+
+/* Scrollbar personalizada para la lista de playlists */
+.playlist-lista::-webkit-scrollbar {
+  width: 4px;
+}
+.playlist-lista::-webkit-scrollbar-track {
+  background: var(--gris-oscuro);
+}
+.playlist-lista::-webkit-scrollbar-thumb {
+  background: var(--gris-claro);
+  border-radius: 2px;
+}
+.playlist-lista::-webkit-scrollbar-thumb:hover {
+  background: var(--rojo);
+}
+
+.playlist-confirmar {
+  padding: 8px 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.playlist-btn-anadir {
+  background: var(--rojo);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.playlist-btn-anadir:hover {
+  background: var(--rojo-suave);
+}
+
+/* Playlist ya contiene el track — deshabilitada */
+.playlist-lista-item.deshabilitada {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Playlist seleccionada */
+.playlist-lista-item.seleccionada {
+  background: rgba(215, 10, 10, 0.1);
+  color: var(--blanco);
+}
+
+/* ✓ de playlist que ya tiene el track */
+.check.yaEsta {
+  color: var(--blanco-dim);
+  margin-left: auto;
+}
+
+/* ✓ de playlist seleccionada */
+.check.seleccion {
+  color: var(--rojo);
+  margin-left: auto;
+}
+
+/* Necesario para que el desplegable de playlist no quede recortado por el contenedor padre */
+.acciones-body {
+  overflow: visible;
+}
+
+.acciones-row {
+  overflow: visible;
+  position: relative;
+}
+
+/* ── Banner de playlist activa ─────────────────────────────────────── */
+/* Se muestra encima del reproductor cuando se está reproduciendo una playlist */
+.playlist-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: rgba(215, 10, 10, 0.08);
+  border: 1px solid rgba(215, 10, 10, 0.25);
+  border-radius: 20px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--blanco-dim);
+  align-self: flex-start;
+}
+
+.playlist-banner[hidden] {
+  display: none !important;
+}
+
+/* Animación de brillo en el nombre de la playlist */
+@keyframes playlist-glow {
+  0%,
+  100% {
+    color: var(--blanco-dim);
+    text-shadow: none;
+  }
+  50% {
+    color: var(--blanco);
+    text-shadow:
+      0 0 8px rgba(215, 10, 10, 0.6),
+      0 0 16px rgba(215, 10, 10, 0.3);
+  }
+}
+
+.playlist-banner span {
+  animation: playlist-glow 2.5s ease-in-out infinite;
+}

@@ -1,0 +1,587 @@
+.nav-perfil-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--rojo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rojo);
+}
+
+/* ── Tarjeta de perfil ───────────────────────────────────────────────── */
+.perfil-card {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  padding: 40px 36px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.perfil-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--rojo),
+    var(--rojo-suave),
+    transparent
+  );
+}
+
+/* Avatar */
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--rojo);
+  background: var(--gris-medio);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  box-shadow: 0 0 28px rgba(215, 10, 10, 0.3);
+  overflow: hidden;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(215, 10, 10, 0.25);
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+@keyframes pulse-ring {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+/* Datos usuario */
+.perfil-info {
+  flex: 1;
+  min-width: 0;
+}
+.perfil-nombre {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.06em;
+  color: var(--blanco);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.perfil-email {
+  font-family: "Space Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--blanco-dim);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+.perfil-miembro {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  background: rgba(215, 10, 10, 0.1);
+  border: 1px solid rgba(215, 10, 10, 0.3);
+  padding: 4px 12px;
+  border-radius: 3px;
+}
+
+/* Insignia de "productor" (rol) en la esquina superior derecha */
+.usuario-badge {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--rojo), var(--acento));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* ── Bloque genérico de sección ──────────────────────────────────────── */
+.seccion {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 18px;
+  border-bottom: 1px solid var(--gris-medio);
+}
+.seccion-titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.seccion-titulo-badge {
+  font-family: "Space Mono", monospace;
+  font-size: 0.6rem;
+  background: var(--rojo);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.btn-ver-todos {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-ver-todos:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+/* ── Estadísticas ────────────────────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  padding: 28px 20px;
+  text-align: center;
+  border-right: 1px solid var(--gris-medio);
+  transition: background 0.2s;
+}
+.stat-item:last-child {
+  border-right: none;
+}
+.stat-item:hover {
+  background: rgba(215, 10, 10, 0.05);
+}
+.stat-numero {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.6rem;
+  letter-spacing: 0.04em;
+  color: var(--rojo);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blanco-dim);
+}
+.stat-icon {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ── Lista de tracks ─────────────────────────────────────────────────── */
+.track-list {
+  padding: 8px 0;
+}
+
+.track-item {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--gris-medio);
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    padding-left 0.18s;
+  position: relative;
+}
+.track-item:last-child {
+  border-bottom: none;
+}
+.track-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--rojo);
+  transform: scaleY(0);
+  transition: transform 0.18s;
+  transform-origin: bottom;
+}
+.track-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  padding-left: 32px;
+}
+.track-item:hover::before {
+  transform: scaleY(1);
+}
+
+.track-num {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--rojo);
+  font-weight: 700;
+  text-align: center;
+}
+.track-info {
+  min-width: 0;
+}
+.track-nombre {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+.track-productor {
+  font-size: 0.75rem;
+  color: var(--blanco-dim);
+}
+.track-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--blanco-dim);
+  white-space: nowrap;
+}
+.track-meta-likes {
+  color: #e05c7c;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.track-duracion {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Fecha de like/descarga — misma tipografía que los demás metadatos */
+.track-fecha-like {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.04em;
+}
+
+.btn-play-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--rojo);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.btn-play-sm:hover {
+  background: var(--rojo-suave);
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(215, 10, 10, 0.5);
+}
+
+/* ── Lista de comentarios ────────────────────────────────────────────── */
+.comment-list {
+  padding: 8px 0;
+}
+.comment-item {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--gris-medio);
+  transition: background 0.18s;
+  position: relative;
+}
+.comment-item:last-child {
+  border-bottom: none;
+}
+.comment-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gris-claro);
+  transition: background 0.18s;
+}
+.comment-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.comment-item:hover::before {
+  background: var(--rojo);
+}
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.comment-track {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--rojo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.comment-fecha {
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--blanco-dim);
+}
+.comment-texto {
+  font-size: 0.88rem;
+  color: var(--blanco-dim);
+  line-height: 1.55;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .page-wrapper {
+    padding: 30px 16px 50px;
+  }
+  .perfil-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 22px;
+  }
+  .perfil-miembro {
+    margin: 0 auto;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stat-item:nth-child(2) {
+    border-right: none;
+  }
+  .stat-item:nth-child(1),
+  .stat-item:nth-child(2) {
+    border-bottom: 1px solid var(--gris-medio);
+  }
+  .track-item {
+    grid-template-columns: 26px 1fr auto;
+    padding: 12px 16px;
+  }
+  .track-item:hover {
+    padding-left: 20px;
+  }
+  .comment-item {
+    padding: 14px 16px;
+  }
+  .seccion-header {
+    padding: 16px 16px 14px;
+  }
+  .track-meta {
+    gap: 8px;
+  }
+
+  .playlist-item-header {
+    padding: 12px 16px;
+  }
+  .playlist-tracks {
+    padding: 0 16px 10px;
+  }
+}
+
+/* ── Mis playlists ───────────────────────────────────────────────────── */
+
+/* Cada playlist de la lista */
+.playlist-item {
+  border-bottom: 1px solid var(--gris-medio);
+  transition: background 0.18s;
+  position: relative;
+}
+.playlist-item:last-child {
+  border-bottom: none;
+}
+.playlist-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--rojo);
+  transform: scaleY(0);
+  transition: transform 0.18s;
+  transform-origin: bottom;
+}
+.playlist-item:hover::before {
+  transform: scaleY(1);
+}
+
+/* Cabecera de cada playlist — nombre, meta y botones */
+.playlist-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  gap: 14px;
+}
+
+/* Nombre y metadatos */
+.playlist-item-info {
+  min-width: 0;
+  flex: 1;
+}
+.playlist-item-nombre {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+.playlist-item-meta {
+  display: flex;
+  gap: 14px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.06em;
+}
+
+/* Botones de acción de la playlist */
+.playlist-item-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.playlist-item-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-size: 0.75rem;
+}
+.playlist-item-btn:hover {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+/* Botón reproducir — fondo rojo */
+.playlist-item-btn.reproducir {
+  background: var(--rojo);
+  border-color: var(--rojo);
+  color: white;
+}
+.playlist-item-btn.reproducir:hover {
+  background: var(--rojo-suave);
+  border-color: var(--rojo-suave);
+}
+/* Botón eliminar — rojo al hover */
+.playlist-item-btn.eliminar:hover {
+  background: rgba(215, 10, 10, 0.15);
+}
+
+/* Lista de tracks dentro de la playlist — expandible */
+.playlist-tracks {
+  padding: 0 28px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--gris-medio);
+}
+
+/* Cada track dentro de la playlist */
+.playlist-track-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gris-medio);
+}
+.playlist-track-item:last-child {
+  border-bottom: none;
+}
+.playlist-track-info {
+  flex: 1;
+  min-width: 0;
+}
+.playlist-track-nombre {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.playlist-track-productor {
+  font-size: 0.72rem;
+  color: var(--blanco-dim);
+}
+.playlist-track-duracion {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--blanco-dim);
+  flex-shrink: 0;
+}
+
+/* Mensaje cuando la playlist está vacía */
+.playlist-vacia-msg {
+  font-size: 0.82rem;
+  color: var(--blanco-dim);
+  padding: 10px 0;
+}

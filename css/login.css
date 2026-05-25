@@ -1,0 +1,354 @@
+/* ── Variables ─────────────────────────────────────────────────────── */
+:root {
+  --rojo: #d70a0a; /* Rojo principal para acentos */
+  --rojo-suave: #ff2a2a; /* Rojo más brillante para hovers */
+  --negro: #0d0d0d; /* Fondo principal muy oscuro */
+  --gris-oscuro: #1b1919; /* Fondo de tarjeta */
+  --gris-medio: #2a2828; /* Fondo de inputs y selects */
+  --gris-claro: #3d3b3b; /* Bordes y separadores */
+  --blanco: #f0eded; /* Texto principal */
+  --blanco-dim: #a09a9a; /* Texto secundario o placeholders */
+}
+
+/* Reset básico: elimina márgenes/padding y aplica box-sizing border-box */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* El padding y border no aumentan el ancho total */
+  margin: 0;
+  padding: 0;
+}
+
+/*Necesario para que en #campo_registro no priorice display: flex; sobre hidden por tener un CSS externo*/
+[hidden] {
+  display: none !important;
+}
+
+/* Estilos base para html y body */
+html,
+body {
+  min-height: 100%; /* Ocupa al menos toda la altura de la ventana */
+  background-color: var(--negro); /* Fondo negro usando variable */
+  color: var(--blanco); /* Texto blanco */
+  font-family: "DM Sans", sans-serif; /* Fuente principal */
+  overflow-x: hidden; /* Evita scroll horizontal no deseado */
+}
+
+/* ========================================================
+   TEXTURA DE FONDO (ruido sutil)
+   ======================================================== */
+body::before {
+  content: ""; /* Necesario para pseudo-elementos */
+  position: fixed; /* Fijo en la ventana, no se mueve al scroll */
+  inset: 0; /* top:0; right:0; bottom:0; left:0; ocupa todo */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  /* SVG inline que genera ruido fractal (textura granulada) */
+  pointer-events: none; /* Permite hacer clic a través de la textura */
+  z-index: 0; /* Capa inferior (detrás del contenido) */
+  opacity: 0.5; /* Reduce aún más la intensidad del ruido */
+}
+
+/* Acento decorativo lateral */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    /* Degradado vertical */ transparent,
+    /* Invisible al inicio */ var(--rojo) 30%,
+    /* Aparece rojo desde el 30% */ var(--rojo) 70%,
+    /* Se mantiene rojo hasta el 70% */ transparent /* Se desvanece al final */
+  );
+  z-index: 0; /* También por debajo del contenido */
+}
+
+/* ── Navbar ─────────────────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Por encima de las capas decorativas (z-index 0) */
+  display: flex; /* Layout flexible horizontal */
+  align-items: center; /* Centrado vertical de los hijos */
+  justify-content: space-between; /* Logo a izquierda, etiqueta a derecha */
+  padding: 0 40px; /* Espaciado horizontal */
+  height: 64px; /* Altura fija */
+  background: rgba(13, 13, 13, 0.88); /* Fondo negro semi-transparente */
+  backdrop-filter: blur(12px); /* Efecto vidrio: difumina lo que hay detrás */
+  border-bottom: 1px solid rgba(215, 10, 10, 0.25); /* Línea inferior roja tenue */
+}
+
+.logo {
+  font-family: "Bebas Neue", sans-serif; /* Fuente impactante */
+  font-size: 2rem;
+  letter-spacing: 0.18em; /* Espaciado muy amplio entre letras */
+  color: var(--blanco);
+  text-decoration: none; /* Quita subrayado de enlace */
+}
+
+/* Parte del logo que va en rojo (por ejemplo, una letra o símbolo) */
+.logo span {
+  color: var(--rojo);
+}
+
+/* Pequeña etiqueta dentro de la navbar (ej: "Formulario dinámico") */
+.nav-tag {
+  font-family: "Space Mono", monospace; /* Fuente monoespaciada */
+  font-size: 0.68rem;
+  color: var(--blanco-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase; /* Todo mayúsculas */
+}
+
+/* ── Página centrada (contenedor principal) ────────────────────────── */
+.page-wrapper {
+  min-height: calc(100vh - 64px); /* Resta la altura de la navbar */
+  display: flex;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  padding: 50px 20px; /* Espacio alrededor en móviles */
+  position: relative;
+  z-index: 1; /* Contenido por encima de textura y línea roja */
+}
+
+/* ── Tarjeta central (formulario) ──────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 460px; /* Ancho máximo en pantallas grandes */
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-claro);
+  border-radius: 10px;
+  padding: 44px 40px 36px;
+  animation: fadeUp 0.5s ease both; /* Animación de entrada */
+  position: relative;
+  overflow: hidden; /* Para que el pseudo-elemento no sobresalga */
+}
+
+/* Línea roja superior decorativa dentro de la tarjeta */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    /* Degradado horizontal */ var(--rojo),
+    /* Comienza rojo */ var(--rojo-suave),
+    /* Se vuelve más brillante */ transparent /* Termina transparente */
+  );
+}
+
+/* Etiqueta pequeña dentro de la tarjeta (ej: "ACCESO SEGURO") */
+.card-tag {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--rojo);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Título principal de la tarjeta (puede cambiar entre "Login" y "Registro") */
+#titulo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.6rem;
+  letter-spacing: 0.07em;
+  color: var(--blanco);
+  margin-bottom: 28px;
+  line-height: 1; /* Altura de línea ajustada (sin espacio extra) */
+}
+
+/* ── Formulario ──────────────────────────────────────────────────────── */
+#formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Cada grupo (label + input) */
+.form-group {
+  display: flex;
+  flex-direction: column; /* Los campos se apilan verticalmente */
+  margin-bottom: 18px; /* Gap 0, usamos margin-bottom en .form-group */
+}
+
+/* Etiquetas de los campos */
+label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blanco-dim);
+  margin-bottom: 7px;
+}
+
+/* Campos de texto y contraseña */
+input[type="text"],
+input[type="password"] {
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 4px;
+  padding: 11px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  color: var(--blanco);
+  outline: none; /* Quito borde azul por defecto */
+  transition:/* Transiciones suaves para interacción */
+    border-color 0.2s,
+    box-shadow 0.2s;
+  width: 100%;
+}
+
+/* Estilo del texto de marcador (placeholder) */
+input::placeholder {
+  color: var(--blanco-dim);
+  opacity: 0.6;
+}
+
+/* Cuando el campo recibe foco (clic o tab) */
+input:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(215, 10, 10, 0.14);
+}
+
+/* Mensaje de error específico para email */
+#error-email,
+#error-password {
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--rojo-suave);
+  margin-top: 5px;
+  min-height: 16px; /* Evita que el layout salte si está vacío */
+  display: block;
+}
+
+/* ── Select desplegable personalizado ───────────────────────────────── */
+/* Contenedor relativo para el select (necesario para el triángulo) */
+.select-wrapper {
+  position: relative;
+}
+
+/* Triángulo decorativo hacia abajo (▾) */
+.select-wrapper::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%); /* Centrado vertical exacto */
+  color: var(--blanco-dim);
+  pointer-events: none; /* El triángulo no interfiere con el clic */
+}
+
+/* Estilo del select */
+select {
+  appearance: none; /* Elimina el estilo nativo del SO */
+  width: 100%;
+  background: var(--gris-medio);
+  border: 1.5px solid var(--gris-claro);
+  border-radius: 4px;
+  padding: 11px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  color: var(--blanco);
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+/* Foco del select (mismo estilo que inputs) */
+select:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(215, 10, 10, 0.14);
+}
+
+/* Opciones del desplegable */
+select option {
+  background: var(--gris-oscuro); /* Fondo oscuro para contraste */
+}
+
+/* ── Campos de registro (se muestran solo en modo registro) ────────── */
+/* Este contenedor agrupa los campos extra (nombre, apellido, etc.) */
+/* Por defecto está visible, pero JS lo oculta/muestra según el modo */
+#campo_registro {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Botones de acción ──────────────────────────────────────────────── */
+/* Contenedor de los dos botones */
+.btn-group {
+  display: flex;
+  gap: 12px; /* Separación horizontal entre botones */
+  margin-top: 10px;
+}
+
+/* Estilos comunes para ambos botones */
+.btn-accion {
+  flex: 1; /* Ocupan el mismo ancho disponible */
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 13px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s; /* Transición suave para hover */
+}
+
+/* Botón de enviar (rojo sólido) */
+.btn-enviar {
+  background: var(--rojo);
+  color: white;
+}
+.btn-enviar:hover {
+  background: var(--rojo-suave); /* Rojo más brillante */
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0 8px 24px rgba(215, 10, 10, 0.4); /* Sombra grande roja */
+}
+
+/* Botón cancelar (contorno) */
+.btn-cancelar {
+  background: transparent;
+  border: 1.5px solid var(--gris-claro);
+  color: var(--blanco-dim);
+}
+.btn-cancelar:hover {
+  border-color: var(--blanco); /* Borde blanco al pasar ratón */
+  color: var(--blanco);
+}
+
+/* ── Animación de entrada ──────────────────────────────────────────── */
+/* La tarjeta aparece deslizándose hacia arriba y con opacidad */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px); /* Comienza 22px más abajo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Termina en su posición original */
+  }
+}
+
+/* ── Estilos responsivos (para móviles) ────────────────────────────── */
+/* Cuando el ancho de la pantalla es menor o igual a 520px */
+@media (max-width: 520px) {
+  .card {
+    padding: 32px 22px 28px; /* Menos relleno para aprovechar espacio */
+  }
+  nav {
+    padding: 0 20px; /* Menos padding horizontal en navbar */
+  }
+  .btn-group {
+    flex-direction: column; /* Botones en columna (uno debajo del otro) */
+  }
+}

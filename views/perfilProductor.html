@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHOWCASE — Mi perfil · Productor</title>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon_vinilo.svg" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/perfilProductor.css" />
+    <!-- perfilUsuario.css contiene estilos de Mis favoritos, Mis descargas y Mis playList -->
+    <link rel="stylesheet" href="../css/perfilUsuario.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+  </head>
+  <body>
+    <!-- ── Navbar ─────────────────────────────────────────────────────────── -->
+    <nav>
+      <div class="nav-izquierda">
+        <button class="btn-hamburguesa" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="menu-desplegable" id="menuDesplegable" hidden>
+          <a href="../views/principal.html">Inicio</a>
+          <a href="../views/reproductor.html">Reproductor</a>
+          <a href="../views/subirAudio.html" class="productores" hidden
+            >Subir un track</a
+          >
+          <a href="../views/perfilProductor.html" class="perfil">Mi perfil</a>
+        </div>
+        <a class="logo" href="principal.html">SHOW<span>CASE</span></a>
+        <div class="nav-perfil-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+        </div>
+        Mi perfil
+      </div>
+      <div id="divUsuario" hidden>
+        <span data-feather="user" class="icono"></span>
+        <div>
+          <span class="nav-user-info fade-in delay-2" id="spanNombre"></span>
+          <span class="nav-user-info fade-in delay-2" id="spanRol"></span>
+        </div>
+        <button class="btn-nav btn-nav-outline" onclick="cerrarSesion()">
+          Cerrar sesión
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── Contenido ──────────────────────────────────────────────────────── -->
+    <div class="page-wrapper">
+      <!-- ── Tarjeta de perfil ─────────────────────────────────────────────── -->
+      <div class="perfil-card fade-in">
+        <span class="productor-badge">⚡ Productor</span>
+        <!-- Botón eliminar cuenta — dentro de perfil-card -->
+        <button class="btn-eliminar-cuenta" onclick="eliminarCuenta()">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6M14 11v6" />
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+          </svg>
+          Eliminar cuenta
+        </button>
+        <div class="avatar-wrapper">
+          <div class="avatar">🎛️</div>
+          <div class="avatar-ring"></div>
+        </div>
+
+        <div class="perfil-info" id="perfil-productor"></div>
+      </div>
+
+      <!-- ── Estadísticas ──────────────────────────────────────────────────── -->
+      <div class="seccion fade-in delay-1">
+        <div class="seccion-header">
+          <div class="seccion-titulo">
+            Estadísticas
+            <span class="seccion-titulo-badge naranja">productor</span>
+          </div>
+        </div>
+        <div class="stats-grid" id="estadisticas"></div>
+      </div>
+
+      <!-- ── Subir instrumental ────────────────────────────────────────────── -->
+      <a class="btn-subir fade-in delay-2" href="subirAudio.html">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v8M8 12l4-4 4 4" />
+        </svg>
+        <div class="btn-subir-text">
+          <span class="btn-subir-main">+ Subir nueva instrumental</span>
+          <span class="btn-subir-sub"
+            >Formatos admitidos: mp3, wav, flac · Máx. 50 MB</span
+          >
+        </div>
+      </a>
+
+      <!-- ── Mis instrumentales ────────────────────────────────────────────── -->
+      <div class="seccion fade-in delay-3">
+        <div class="seccion-header">
+          <div class="seccion-titulo">Mis instrumentales</div>
+          <a
+            class="btn-ver-todos"
+            id="btnVerInstrumentales"
+            onclick="toggleInstrumentales()"
+            >Ver todas →</a
+          >
+        </div>
+        <div class="track-list" id="mis-instrumentales"></div>
+      </div>
+
+      <!-- ── Mis favoritos ─────────────────────────────────────────────────── -->
+      <div class="seccion fade-in delay-3">
+        <div class="seccion-header">
+          <div class="seccion-titulo">Mis favoritos</div>
+          <a
+            class="btn-ver-todos"
+            id="btnVerFavoritos"
+            onclick="toggleFavoritos()"
+            >Ver todas →</a
+          >
+        </div>
+        <div class="track-list" id="track-list-favoritos">
+          <!-- Los favoritos se cargan dinámicamente desde el backend -->
+        </div>
+      </div>
+
+      <!-- ── Mis descargas ─────────────────────────────────────────────────── -->
+      <div class="seccion fade-in delay-3">
+        <div class="seccion-header">
+          <div class="seccion-titulo">Mis descargas</div>
+          <a
+            class="btn-ver-todos"
+            id="btnVerDescargas"
+            onclick="toggleDescargas()"
+            >Ver todas →</a
+          >
+        </div>
+        <div class="track-list" id="track-list-descargas">
+          <!-- Las descargas se cargan dinámicamente desde el backend -->
+        </div>
+      </div>
+
+      <!-- ── Mis playlists ─────────────────────────────────────────────────── -->
+      <div class="seccion fade-in delay-4">
+        <div class="seccion-header">
+          <div class="seccion-titulo">Mis playlists</div>
+          <a
+            class="btn-ver-todos"
+            id="btnVerPlaylists"
+            onclick="togglePlaylists()"
+            >Ver todas →</a
+          >
+        </div>
+        <div id="lista-playlists-perfil">
+          <!-- Las playlists se cargan dinámicamente desde el backend -->
+        </div>
+      </div>
+    </div>
+    <!-- /page-wrapper -->
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/perfilProductor.js"></script>
+  </body>
+</html>

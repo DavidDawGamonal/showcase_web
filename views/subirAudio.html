@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHOWCASE — Subir instrumental</title>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon_vinilo.svg" />
+    <link rel="stylesheet" href="../css/subirAudio.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/subirAudio.js"></script>
+  </head>
+  <body>
+    <!-- ── Navbar ─────────────────────────────────────────────────────────── -->
+    <nav>
+      <div class="nav-izquierda">
+        <button class="btn-hamburguesa" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <!-- Menú desplegable pendiente de implementar ubicaciones-->
+        <div class="menu-desplegable" id="menuDesplegable" hidden>
+          <a href="principal.html">Inicio</a>
+          <a href="../views/reproductor.html">Reproductor</a>
+          <a href="../views/subirAudio.html" class="productores" hidden
+            >Subir un track</a
+          >
+          <a class="perfil" href="../views/perfilProductor.html">Mi perfil</a>
+        </div>
+        <a class="logo" href="principal.html">SHOW<span>CASE</span></a>
+        <span class="nav-tag">// subir instrumental</span>
+      </div>
+      <div id="divUsuario">
+        <span data-feather="user" class="icono"></span>
+        <div>
+          <span class="nav-user-info fade-in delay-2" id="spanNombre"></span>
+          <span class="nav-user-info fade-in delay-2" id="spanRol"></span>
+        </div>
+        <button class="btn-nav btn-nav-outline" onclick="cerrarSesion()">
+          Cerrar sesión
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── Contenido ──────────────────────────────────────────────────────── -->
+    <div class="page-wrapper">
+      <div class="page-header">
+        <p class="page-header-tag">// nueva producción</p>
+        <h1>Sube tu <em>instrumental</em></h1>
+      </div>
+
+      <div class="upload-grid">
+        <!-- ── Zona AUDIO ─────────────────────────────────────────────────── -->
+        <div class="drop-zone" id="audioDropZone">
+          <div class="drop-zone-header">
+            <span style="font-size: 1.4rem">🎵</span>
+            <h3>Audio</h3>
+          </div>
+          <p class="drop-zone-sub">
+            Arrastra aquí tu base instrumental o selecciona un archivo
+          </p>
+
+          <button
+            class="btn-seleccionar"
+            onclick="document.getElementById('audioInput').click()"
+          >
+            Seleccionar archivo
+          </button>
+          <input
+            type="file"
+            id="audioInput"
+            accept="audio/*"
+            style="display: none"
+          />
+          <div id="audioInfo"></div>
+
+          <hr class="zone-divider" />
+
+          <div class="form-group">
+            <label for="titulo">Título</label>
+            <input
+              type="text"
+              id="titulo"
+              class="form-control"
+              placeholder="Título del track"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="genero">Género</label>
+            <div class="select-wrapper">
+              <select id="genero" class="form-select">
+                <option value="rap">Rap</option>
+                <option value="reggae">Reggae</option>
+                <option value="blues">Blues</option>
+                <option value="soul">Soul</option>
+                <option value="jazz">Jazz</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              class="form-control"
+              rows="4"
+              placeholder="Describe tu música"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- ── Zona IMAGEN ────────────────────────────────────────────────── -->
+        <div class="drop-zone" id="imagenDropZone">
+          <div class="drop-zone-header">
+            <span style="font-size: 1.4rem">🖼️</span>
+            <h3>Portada</h3>
+          </div>
+          <p class="drop-zone-sub">Arrastra aquí tu imagen o selecciona una</p>
+
+          <button
+            class="btn-seleccionar"
+            onclick="document.getElementById('imagenInput').click()"
+          >
+            Seleccionar imagen
+          </button>
+          <input
+            type="file"
+            id="imagenInput"
+            accept="image/*"
+            style="display: none"
+          />
+          <div id="imagenPreview"></div>
+        </div>
+      </div>
+      <!-- /upload-grid -->
+
+      <!-- ── Botones finales ─────────────────────────────────────────────── -->
+      <div class="acciones">
+        <button type="button" class="btn-accion btn-borrador">
+          Guardar borrador
+        </button>
+
+        <button type="button" id="btnPublicar" class="btn-accion btn-publicar">
+          Publicar
+        </button>
+      </div>
+    </div>
+    <!-- /page-wrapper -->
+
+    <script>
+      function procesarAudio(file) {
+        const info = document.getElementById("audioInfo");
+        if (!file.type.startsWith("audio/")) {
+          info.innerHTML = `<span class="badge-error">❌ Solo archivos de audio</span>`;
+          return;
+        }
+        const mb = (file.size / 1024 / 1024).toFixed(2);
+        info.innerHTML = `<span class="badge-ok">✅ ${file.name} (${mb} MB)</span>`;
+      }
+
+      function procesarImagen(file) {
+        const preview = document.getElementById("imagenPreview");
+        if (!file.type.startsWith("image/")) {
+          preview.innerHTML = `<span class="badge-error">❌ Solo archivos de imagen</span>`;
+          return;
+        }
+        const mb = (file.size / 1024 / 1024).toFixed(2);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          preview.innerHTML = `
+            <span class="badge-ok">✅ ${file.name} (${mb} MB)</span>
+            <img src="${e.target.result}" alt="preview portada">
+          `;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function enableDragAndDrop(elementId, callback) {
+        const el = document.getElementById(elementId);
+        el.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          el.classList.add("drag-over");
+        });
+        el.addEventListener("dragleave", (e) => {
+          e.preventDefault();
+          el.classList.remove("drag-over");
+        });
+        el.addEventListener("drop", (e) => {
+          e.preventDefault();
+          el.classList.remove("drag-over");
+          if (e.dataTransfer.files.length) callback(e.dataTransfer.files[0]);
+        });
+      }
+
+      enableDragAndDrop("audioDropZone", (file) => procesarAudio(file));
+      enableDragAndDrop("imagenDropZone", (file) => procesarImagen(file));
+
+      document.getElementById("audioInput").onchange = (e) =>
+        procesarAudio(e.target.files[0]);
+      document.getElementById("imagenInput").onchange = (e) =>
+        procesarImagen(e.target.files[0]);
+    </script>
+    <script src="../js/utils.js"></script>
+  </body>
+</html>
