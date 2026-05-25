@@ -10,5 +10,7 @@ const CONFIG = {
   // API_URL: "http://192.168.56.1/",
 
   // URL de la API en local
-  API_URL: "http://localhost:8081/",
+  // API_URL: "http://localhost:8081/",
+  API_URL: "https://showcaseapi-production.up.railway.app/",
 };
+showcaseapi - production.up.railway.app;
