@@ -13,4 +13,3 @@ const CONFIG = {
   // API_URL: "http://localhost:8081/",
   API_URL: "https://showcaseapi-production.up.railway.app/",
 };
-showcaseapi - production.up.railway.app;
